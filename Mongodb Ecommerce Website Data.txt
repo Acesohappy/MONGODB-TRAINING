@@ -1,0 +1,44 @@
+use ECommerceWebsite
+
+db.createCollection("Users")
+db.createCollection("Products")
+db.createCollection("Orders")
+db.createCollection("Payments")
+
+show Collections
+Users
+Products
+Orders
+Payments
+
+db.Users.insertMany([
+  {u_id:1,name:"Anubama",city:"Chennai"},
+  {u_id:2,name:"Deepika",city:"Chennai"},
+  {u_id:3,name:"Fanny",city:"Mumbai"},
+  {u_id:4,name:"Amirthavarshini",city:"Chennai"},
+  {u_id:5,name:"Akshitha",city:"Chennai"}
+])
+
+db.Products.insertMany([
+  {"p_id": 1, "name": "Laptop", "price": 55000, "category": "Electronics", "stock": 10},
+  {"p_id": 2, "name": "Smartphone", "price": 20000, "category": "Electronics", "stock": 15},
+  {"p_id": 3, "name": "Headphones", "price": 3000, "category": "Accessories", "stock": 25},
+  {"p_id": 4, "name": "Backpack", "price": 1200, "category": "Bags", "stock": 30},
+  {"p_id": 5, "name": "Wrist Watch", "price": 5000, "category": "Fashion", "stock": 20}
+])
+
+db.Orders.insertMany([
+  {"o_id": 101, "u_id": 1, "p_id": 2, "qty": 1, "status": "Delivered"},
+  {"o_id": 102, "u_id": 2, "p_id": 5, "qty": 2, "status": "Shipped"},
+  {"o_id": 103, "u_id": 3, "p_id": 3, "qty": 1, "status": "Pending"},
+  {"o_id": 104, "u_id": 4, "p_id": 4, "qty": 1, "status": "Delivered"},
+  {"o_id": 105, "u_id": 5, "p_id": 1, "qty": 1, "status": "Cancelled"}
+])
+
+db.Payments.insertMany([
+  {"pay_id": 201, "o_id": 101, "amount": 20000, "status": "Completed", "method": "Credit Card"},
+  {"pay_id": 202, "o_id": 102, "amount": 10000, "status": "Processing", "method": "UPI"},
+  {"pay_id": 203, "o_id": 103, "amount": 3000, "status": "Pending", "method": "Debit Card"},
+  {"pay_id": 204, "o_id": 104, "amount": 1200, "status": "Completed", "method": "Net Banking"},
+  {"pay_id": 205, "o_id": 105, "amount": 55000, "status": "Refunded", "method": "Credit Card"}
+])
