@@ -121,6 +121,25 @@ db.Payments.updateOne({ pay_id: 203 }, { $set: { status: "Completed" } })
 db.Users.deleteOne({ u_id: 1 })
 ```
 
+
+# **Step 5: Search & Filtering**  
+
+### **Find Orders Where Status is "Pending"**  
+```javascript
+db.Orders.find({ status: "Pending" })
+```
+
+### **Find Products with Price Greater than 600**  
+```javascript
+db.Products.find({ price: { $gt: 600 } })
+```
+(**Note:** I corrected `db.Product` to `db.Products` to match your previous collection name.)  
+
+### **Find Users Whose Name Starts with "A"**  
+```javascript
+db.Users.find({ name: /^A/ })
+```
+
 ### **Delete an Order (If Canceled)**  
 ```javascript
 db.Orders.deleteOne({ o_id: 105 })
