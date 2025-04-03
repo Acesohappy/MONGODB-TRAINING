@@ -202,7 +202,8 @@ db.Users.find({ city: { $exists: false } })
 ```javascript
 db.Users.find({ city: { $regex: "on", $options: "i" } })
 ```
-# **Step 8: Aggregation Queries**  
+
+# **Step 8: Aggregation Queries (Fixed Output Format)**  
 
 ## **1. Join Collections (`$lookup`)**  
 _Join `Orders` with `Users` to get order details along with user information._  
@@ -229,12 +230,12 @@ db.Orders.aggregate([
 ])
 ```
 ### **Output:**
-```json
+```js
 [
-  { "_id": ObjectId("67ee125427aa04639ab71240"), "p_id": 2, "qty": 1, "status": "Delivered", "user_info": { "name": "Anubama" } },
-  { "_id": ObjectId("67ee125427aa04639ab71241"), "p_id": 5, "qty": 2, "status": "Delivered", "user_info": { "name": "Deepika" } },
-  { "_id": ObjectId("67ee125427aa04639ab71243"), "p_id": 4, "qty": 1, "status": "Delivered", "user_info": { "name": "Amirthavarshini" } },
-  { "_id": ObjectId("67ee3a3f13d701314cb71236"), "p_id": 5, "qty": 3, "status": "Pending", "user_info": { "name": "Akshitha" } }
+  { _id: ObjectId("67ee125427aa04639ab71240"), p_id: 2, qty: 1, status: "Delivered", user_info: { name: "Anubama" } },
+  { _id: ObjectId("67ee125427aa04639ab71241"), p_id: 5, qty: 2, status: "Delivered", user_info: { name: "Deepika" } },
+  { _id: ObjectId("67ee125427aa04639ab71243"), p_id: 4, qty: 1, status: "Delivered", user_info: { name: "Amirthavarshini" } },
+  { _id: ObjectId("67ee3a3f13d701314cb71236"), p_id: 5, qty: 3, status: "Pending", user_info: { name: "Akshitha" } }
 ]
 ```
 
@@ -253,13 +254,13 @@ db.Orders.aggregate([
 ])
 ```
 ### **Output:**
-```json
+```js
 [
-  { "_id": 2, "totalOrders": 1 },
-  { "_id": 3, "totalOrders": 1 },
-  { "_id": 1, "totalOrders": 1 },
-  { "_id": 4, "totalOrders": 1 },
-  { "_id": 5, "totalOrders": 1 }
+  { _id: 2, totalOrders: 1 },
+  { _id: 3, totalOrders: 1 },
+  { _id: 1, totalOrders: 1 },
+  { _id: 4, totalOrders: 1 },
+  { _id: 5, totalOrders: 1 }
 ]
 ```
 
@@ -273,13 +274,13 @@ db.Orders.aggregate([
 ])
 ```
 ### **Output:**
-```json
+```js
 [
-  { "_id": ObjectId("67ee3a3f13d701314cb71236"), "o_id": 105, "u_id": 5, "p_id": 5, "qty": 3, "status": "Pending" },
-  { "_id": ObjectId("67ee125427aa04639ab71241"), "o_id": 102, "u_id": 2, "p_id": 5, "qty": 2, "status": "Delivered" },
-  { "_id": ObjectId("67ee125427aa04639ab71240"), "o_id": 101, "u_id": 1, "p_id": 2, "qty": 1, "status": "Delivered" },
-  { "_id": ObjectId("67ee125427aa04639ab71242"), "o_id": 103, "u_id": 3, "p_id": 3, "qty": 1, "status": "Pending" },
-  { "_id": ObjectId("67ee125427aa04639ab71243"), "o_id": 104, "u_id": 4, "p_id": 4, "qty": 1, "status": "Delivered" }
+  { _id: ObjectId("67ee3a3f13d701314cb71236"), o_id: 105, u_id: 5, p_id: 5, qty: 3, status: "Pending" },
+  { _id: ObjectId("67ee125427aa04639ab71241"), o_id: 102, u_id: 2, p_id: 5, qty: 2, status: "Delivered" },
+  { _id: ObjectId("67ee125427aa04639ab71240"), o_id: 101, u_id: 1, p_id: 2, qty: 1, status: "Delivered" },
+  { _id: ObjectId("67ee125427aa04639ab71242"), o_id: 103, u_id: 3, p_id: 3, qty: 1, status: "Pending" },
+  { _id: ObjectId("67ee125427aa04639ab71243"), o_id: 104, u_id: 4, p_id: 4, qty: 1, status: "Delivered" }
 ]
 ```
 
@@ -308,12 +309,12 @@ db.Orders.aggregate([
 ])
 ```
 ### **Output:**
-```json
+```js
 [
-  { "_id": 5, "totalRevenue": 25000 },
-  { "_id": 2, "totalRevenue": 20000 },
-  { "_id": 3, "totalRevenue": 3000 },
-  { "_id": 4, "totalRevenue": 1200 }
+  { _id: 5, totalRevenue: 25000 },
+  { _id: 2, totalRevenue: 20000 },
+  { _id: 3, totalRevenue: 3000 },
+  { _id: 4, totalRevenue: 1200 }
 ]
 ```
 
@@ -333,8 +334,9 @@ db.Orders.aggregate([
 ])
 ```
 ### **Output:**
-```json
-[ { "_id": null, "totalSales": 4 } ]
+```js
+[ { _id: null, totalSales: 4 } ]
 ```
 
 ---
+
