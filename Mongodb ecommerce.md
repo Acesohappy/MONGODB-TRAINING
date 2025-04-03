@@ -202,6 +202,139 @@ db.Users.find({ city: { $exists: false } })
 ```javascript
 db.Users.find({ city: { $regex: "on", $options: "i" } })
 ```
+# **Step 8: Aggregation Queries**  
+
+## **1. Join Collections (`$lookup`)**  
+_Join `Orders` with `Users` to get order details along with user information._  
+```javascript
+db.Orders.aggregate([
+    {
+        $lookup: {
+            from: "Users",    
+            localField: "u_id",  
+            foreignField: "u_id",  
+            as: "user_info"  
+        }
+    },
+    { $unwind: "$user_info" },
+    {
+        $project: {
+            _id: 1,
+            "user_info.name": 1,
+            p_id: 1,
+            qty: 1,
+            status: 1
+        }
+    }
+])
+```
+### **Output:**
+```json
+[
+  { "_id": ObjectId("67ee125427aa04639ab71240"), "p_id": 2, "qty": 1, "status": "Delivered", "user_info": { "name": "Anubama" } },
+  { "_id": ObjectId("67ee125427aa04639ab71241"), "p_id": 5, "qty": 2, "status": "Delivered", "user_info": { "name": "Deepika" } },
+  { "_id": ObjectId("67ee125427aa04639ab71243"), "p_id": 4, "qty": 1, "status": "Delivered", "user_info": { "name": "Amirthavarshini" } },
+  { "_id": ObjectId("67ee3a3f13d701314cb71236"), "p_id": 5, "qty": 3, "status": "Pending", "user_info": { "name": "Akshitha" } }
+]
+```
 
 ---
+
+## **2. Group By (`$group`)**  
+_Get the total number of orders placed by each user._  
+```javascript
+db.Orders.aggregate([
+    {
+        $group: {
+            _id: "$u_id",  
+            totalOrders: { $sum: 1 }  
+        }
+    }
+])
+```
+### **Output:**
+```json
+[
+  { "_id": 2, "totalOrders": 1 },
+  { "_id": 3, "totalOrders": 1 },
+  { "_id": 1, "totalOrders": 1 },
+  { "_id": 4, "totalOrders": 1 },
+  { "_id": 5, "totalOrders": 1 }
+]
+```
+
+---
+
+## **3. Sorting (`$sort`)**  
+_Sort orders by quantity in descending order._  
+```javascript
+db.Orders.aggregate([
+    { $sort: { qty: -1 } }  
+])
+```
+### **Output:**
+```json
+[
+  { "_id": ObjectId("67ee3a3f13d701314cb71236"), "o_id": 105, "u_id": 5, "p_id": 5, "qty": 3, "status": "Pending" },
+  { "_id": ObjectId("67ee125427aa04639ab71241"), "o_id": 102, "u_id": 2, "p_id": 5, "qty": 2, "status": "Delivered" },
+  { "_id": ObjectId("67ee125427aa04639ab71240"), "o_id": 101, "u_id": 1, "p_id": 2, "qty": 1, "status": "Delivered" },
+  { "_id": ObjectId("67ee125427aa04639ab71242"), "o_id": 103, "u_id": 3, "p_id": 3, "qty": 1, "status": "Pending" },
+  { "_id": ObjectId("67ee125427aa04639ab71243"), "o_id": 104, "u_id": 4, "p_id": 4, "qty": 1, "status": "Delivered" }
+]
+```
+
+---
+
+## **4. Combining Aggregation Operators**  
+_Get the total revenue generated from each product._  
+```javascript
+db.Orders.aggregate([
+    {
+        $lookup: {
+            from: "Products",
+            localField: "p_id",
+            foreignField: "p_id",
+            as: "product_details"
+        }
+    },
+    { $unwind: "$product_details" },
+    {
+        $group: {
+            _id: "$p_id",
+            totalRevenue: { $sum: { $multiply: ["$qty", "$product_details.price"] } }
+        }
+    },
+    { $sort: { totalRevenue: -1 } }  
+])
+```
+### **Output:**
+```json
+[
+  { "_id": 5, "totalRevenue": 25000 },
+  { "_id": 2, "totalRevenue": 20000 },
+  { "_id": 3, "totalRevenue": 3000 },
+  { "_id": 4, "totalRevenue": 1200 }
+]
+```
+
+---
+
+## **5. Filter & Aggregation (`$match` + `$group`)**  
+_Get the total number of sales for only "Delivered" orders._  
+```javascript
+db.Orders.aggregate([
+    { $match: { status: "Delivered" } },
+    {
+        $group: {
+            _id: null,
+            totalSales: { $sum: "$qty" }
+        }
+    }
+])
+```
+### **Output:**
+```json
+[ { "_id": null, "totalSales": 4 } ]
+```
+
 ---
