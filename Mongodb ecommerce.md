@@ -142,4 +142,66 @@ db.Products.find({ price: { $gt: 600 } })
 ```javascript
 db.Users.find({ name: /^A/ })
 ```
+
+# **Step 6: Advanced Queries**  
+
+### **Find with Projection**  
+_Show only `name` and `age`, exclude `_id`_  
+```javascript
+db.Users.find({}, { name: 1, city: 1})
+```
+
+### **Update Multiple Documents**  
+_Increase `age` by 1 for all users_  
+```javascript
+db.Users.updateMany({}, { $inc: { age: 1 } })
+```
+
+### **Replace an Entire Document**  
+_Replace a document where `name` is "Bob"_  
+```javascript
+db.Users.replaceOne({ name: "Fanny" }, { name: "Anubama", age: 30, city: "Berlin" })
+```
+
+### **Delete Multiple Documents**  
+_Delete users whose `age` is less than 27_  
+```javascript
+db.Users.deleteMany({ age: { $lt: 27 } })
+```
+
+### **Delete All Documents in a Collection**  
+```javascript
+db.Users.deleteMany({})
+```
+
+---
+
+# **Step 7: Filtering with Conditions**  
+
+### **Find Users with Age Between 25 and 30**  
+```javascript
+db.Users.find({ age: { $gte: 25, $lte: 30 } })
+```
+
+### **Find Users Whose Name is Either "Alice" or "Bob"**  
+```javascript
+db.Users.find({ name: { $in: ["Alice", "Bob"] } })
+```
+
+### **Find Users Whose Name is Not "Alice"**  
+```javascript
+db.Users.find({ name: { $ne: "Alice" } })
+```
+
+### **Find Users Where `city` is Not Specified**  
+```javascript
+db.Users.find({ city: { $exists: false } })
+```
+
+### **Find Users Whose `city` Contains "on" (Case-Insensitive)**  
+```javascript
+db.Users.find({ city: { $regex: "on", $options: "i" } })
+```
+
+---
 ---
