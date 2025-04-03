@@ -1,16 +1,23 @@
-use ECommerceWebsite
+#Create Database 
+use ECommerceWebsite                         
 
-db.createCollection("Users")
+#Create Collections
+
+db.createCollection("Users")           
 db.createCollection("Products")
 db.createCollection("Orders")
 db.createCollection("Payments")
 
+#To see all the Collections in the database
+
 show Collections
+>
 Users
 Products
 Orders
 Payments
 
+#Inserting Datas
 db.Users.insertMany([
   {u_id:1,name:"Anubama",city:"Chennai"},
   {u_id:2,name:"Deepika",city:"Chennai"},
