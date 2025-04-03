@@ -120,7 +120,10 @@ db.Payments.updateOne({ pay_id: 203 }, { $set: { status: "Completed" } })
 ```javascript
 db.Users.deleteOne({ u_id: 1 })
 ```
-
+### **Delete an Order (If Canceled)**  
+```javascript
+db.Orders.deleteOne({ o_id: 105 })
+```
 
 # **Step 5: Search & Filtering**  
 
