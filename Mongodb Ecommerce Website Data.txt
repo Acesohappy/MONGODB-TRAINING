@@ -1,17 +1,16 @@
+#Step 1 : Create and Update the Database
+
 #Create Database 
 use ECommerceWebsite                         
 
 #Create Collections
-
 db.createCollection("Users")           
 db.createCollection("Products")
 db.createCollection("Orders")
 db.createCollection("Payments")
 
 #To see all the Collections in the database
-
 show Collections
->
 Users
 Products
 Orders
@@ -49,3 +48,36 @@ db.Payments.insertMany([
   {"pay_id": 204, "o_id": 104, "amount": 1200, "status": "Completed", "method": "Net Banking"},
   {"pay_id": 205, "o_id": 105, "amount": 55000, "status": "Refunded", "method": "Credit Card"}
 ])
+
+
+#Step 2: Retrieve Data
+
+#Find All Users
+db.Users.find()
+
+#Find Orders placed by "Anubama"(Using User ID)
+db.Orders.find({u_id:1})
+
+#Find Payments for a Specific Order
+db.Payments.find({o_id:101})
+
+
+#Step 3:Update Data
+
+#Update Order Status to "Delivered"
+db.Orders.updateOne({o_id:102},{$set:{status:"Delivered"}})
+
+#Decrease Stock after Purchase
+db.Products.updateOne({p_id:1},{$inc:{stock:-1}})
+
+#Mark Payment as Completed
+db.Payments.updateOne({pay_id:203},{$set:{status:"Completed"}})
+
+
+#Step 4:Delete Data
+
+#Remove a User(If Needed)
+db.Users.deleteOne({u_id:1})
+
+#Delete an Order(If Canceled)
+db.Orders.deleteOne({o_id:105})
