@@ -81,3 +81,14 @@ db.Users.deleteOne({u_id:1})
 
 #Delete an Order(If Canceled)
 db.Orders.deleteOne({o_id:105})
+
+#Step 5:Search & Filtering
+
+#Find Orders Where Status is "Pending"
+db.Orders.find({status:"Pending"})
+
+#Find Product with Price Greater than 600
+db.Products.find({price:{$gt:600}})
+
+#Find Users Whose Name Starts with "A"
+db.Users.find({name:/^A/ })
