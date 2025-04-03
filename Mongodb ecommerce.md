@@ -142,10 +142,4 @@ db.Products.find({ price: { $gt: 600 } })
 ```javascript
 db.Users.find({ name: /^A/ })
 ```
-
-### **Delete an Order (If Canceled)**  
-```javascript
-db.Orders.deleteOne({ o_id: 105 })
-```
-
 ---
